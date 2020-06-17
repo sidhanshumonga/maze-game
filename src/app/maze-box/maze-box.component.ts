@@ -9,11 +9,15 @@ export class MazeBoxComponent implements OnInit {
   height = 11;
   width = 8;
   countOfGreens = this.height > this.width ? this.height : this.width;
-  midHeight = this.height % 2 === 0 ? (this.height / 2) - 1 : ((this.height + 1) / 2) - 1;
-  midWidth = this.width % 2 === 0 ? (this.width / 2) - 1 : ((this.width + 1) / 2) - 1;
+  midHeight =
+    this.height % 2 === 0 ? this.height / 2 - 1 : (this.height + 1) / 2 - 1;
+  midWidth =
+    this.width % 2 === 0 ? this.width / 2 - 1 : (this.width + 1) / 2 - 1;
   hashArray = [];
   currentPos = 'count_' + this.midHeight + '_' + this.midWidth;
   totalMoves = 0;
+  background = new Audio();
+
   constructor() {}
 
   ngOnInit() {
@@ -38,13 +42,14 @@ export class MazeBoxComponent implements OnInit {
   }
 
   public getRandomIndex() {
-    const random = (
+    const random =
       'count_' +
       Math.floor(Math.random() * this.height) +
       '_' +
-      Math.floor(Math.random() * this.width)
-    );
-    return random !== this.currentPos && !this.hashArray[random] ? random : this.getRandomIndex()
+      Math.floor(Math.random() * this.width);
+    return random !== this.currentPos && !this.hashArray[random]
+      ? random
+      : this.getRandomIndex();
   }
 
   @HostListener('document:keydown', ['$event']) onArrowUpHandler(
@@ -91,10 +96,20 @@ export class MazeBoxComponent implements OnInit {
     if (this.hashArray[this.currentPos]) {
       this.hashArray[this.currentPos] = false;
       this.countOfGreens -= 1;
+      this.playAudio('../../assets/sounds/eat.mp3');
     }
     this.totalMoves += 1;
+    this.playAudio('../../assets/sounds/step.mp3');
     if (this.countOfGreens === 0) {
       alert(this.totalMoves);
+      this.playAudio('../../assets/sounds/end.mp3');
     }
+  }
+
+  playAudio(path) {
+      const audio = new Audio();
+      audio.src = path;
+      audio.load();
+      audio.play();
   }
 }
