@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./dialog-box.component.scss']
 })
 export class DialogBoxComponent implements OnInit {
+  errorWidth = false;
   constructor(
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
@@ -16,6 +17,14 @@ export class DialogBoxComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  sendData() {
+    if (this.data.width > 24) {
+      this.errorWidth = true;
+    } else {
+      this.dialogRef.close(this.data);
+    }
   }
 
 }

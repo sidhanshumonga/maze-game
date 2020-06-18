@@ -11,7 +11,7 @@
       <div class="col">
         <p>Enter width</p>
         <mat-form-field>
-          <mat-label>Number of columns</mat-label>
+          <mat-label>Number of columns (Max 24)</mat-label>
           <input matInput type="number" max="24" [(ngModel)]="data.width" />
         </mat-form-field>
       </div>
@@ -19,7 +19,7 @@
   </div>
   <div class="text-right px-3">
     <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="sendData()" cdkFocusInitial>Ok</button>
   </div>
 </div>
 <div *ngIf="data.steps">
