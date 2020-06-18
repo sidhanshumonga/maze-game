@@ -1,0 +1,36 @@
+<div *ngIf="!data.steps">
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col">
+        <p>Enter height</p>
+        <mat-form-field>
+          <mat-label>Number of rows</mat-label>
+          <input matInput type="number" [(ngModel)]="data.height" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <p>Enter width</p>
+        <mat-form-field>
+          <mat-label>Number of columns</mat-label>
+          <input matInput type="number" max="24" [(ngModel)]="data.width" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="text-right px-3">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  </div>
+</div>
+<div *ngIf="data.steps">
+  <div class="row">
+    <div class="col text-center">
+      <h3>GAME OVER</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      <h6>You took {{data.steps}} steps to finish the game.</h6>
+    </div>
+  </div>
+</div>

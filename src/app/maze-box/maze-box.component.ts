@@ -1,4 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
   selector: 'app-maze-box',
@@ -6,23 +8,20 @@ import { Component, OnInit, HostListener } from '@angular/core';
   styleUrls: ['./maze-box.component.scss'],
 })
 export class MazeBoxComponent implements OnInit {
-  height = 11;
-  width = 8;
-  countOfGreens = this.height > this.width ? this.height : this.width;
-  midHeight =
-    this.height % 2 === 0 ? this.height / 2 - 1 : (this.height + 1) / 2 - 1;
-  midWidth =
-    this.width % 2 === 0 ? this.width / 2 - 1 : (this.width + 1) / 2 - 1;
+  height = 0;
+  width = 0;
+  start = false;
+  countOfGreens = 0;
+  midHeight = 0;
+  midWidth = 0;
   hashArray = [];
-  currentPos = 'count_' + this.midHeight + '_' + this.midWidth;
+  currentPos = '';
   totalMoves = 0;
-  background = new Audio();
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.createHashMap(this.height, this.width);
-    this.randomize();
+    this.openDialog();
   }
 
   public createHashMap(height, width) {
@@ -31,6 +30,7 @@ export class MazeBoxComponent implements OnInit {
         this.hashArray['count_' + i + '_' + j] = false;
       }
     }
+    this.randomize();
   }
 
   public randomize() {
@@ -59,6 +59,7 @@ export class MazeBoxComponent implements OnInit {
   }
 
   public captureNavigation(event) {
+    if (!this.start || this.countOfGreens === 0) { return; }
     switch (event.code) {
       case 'ArrowRight': {
         this.midWidth < this.width - 1
@@ -101,15 +102,44 @@ export class MazeBoxComponent implements OnInit {
     this.totalMoves += 1;
     this.playAudio('../../assets/sounds/step.mp3');
     if (this.countOfGreens === 0) {
-      alert(this.totalMoves);
+      this.endGame();
       this.playAudio('../../assets/sounds/end.mp3');
     }
   }
 
   playAudio(path) {
-      const audio = new Audio();
-      audio.src = path;
-      audio.load();
-      audio.play();
+    const audio = new Audio();
+    audio.src = path;
+    audio.load();
+    audio.play();
+  }
+
+  setupDimensions() {
+    this.countOfGreens = this.height > this.width ? this.height : this.width;
+    this.midHeight = this.height % 2 === 0 ? this.height / 2 - 1 : (this.height - 1) / 2;
+    this.midWidth = this.width % 2 === 0 ? this.width / 2 - 1 : (this.width - 1) / 2;
+    this.currentPos = 'count_' + this.midHeight + '_' + this.midWidth;
+    this.createHashMap(this.height, this.width);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '40%',
+      data: { height: this.height, width: this.width },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.width = result.width;
+      this.height = result.height;
+      this.setupDimensions();
+      this.start = true;
+    });
+  }
+
+  endGame(): void {
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '40%',
+      data: { steps: this.totalMoves },
+    });
   }
 }
