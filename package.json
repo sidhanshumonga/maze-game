@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && rm -rf docs && mv dist/maze-game docs",
+    "build": "ng build && rm -rf docs && mv dist docs",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
