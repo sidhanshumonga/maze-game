@@ -1,7 +1,7 @@
 <div class="mx-1" *ngFor="let count of [].constructor(height); index as i">
     <div class="maze-box mx-1 p-1" *ngFor="let count of [].constructor(width); index as j" [id]="'count_'+i+j"
     [class.focus]="i === midHeight &&  j === midWidth" [class.mario-green]="hashArray['count_' + i + '_' + j]">
-        <span *ngIf="i === midHeight &&  j === midWidth"><img  src="../../assets/mario.png" class="mario"/></span>
-        <span *ngIf="hashArray['count_' + i + '_' + j]"><img  src="../../assets/evil.jpg" class="mario"/></span>
+        <span *ngIf="i === midHeight &&  j === midWidth"><img  src="assets/mario.png" class="mario"/></span>
+        <span *ngIf="hashArray['count_' + i + '_' + j]"><img  src="assets/evil.jpg" class="mario"/></span>
     </div>  
 </div>

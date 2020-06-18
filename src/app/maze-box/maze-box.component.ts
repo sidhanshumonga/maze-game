@@ -97,13 +97,13 @@ export class MazeBoxComponent implements OnInit {
     if (this.hashArray[this.currentPos]) {
       this.hashArray[this.currentPos] = false;
       this.countOfGreens -= 1;
-      this.playAudio('../../assets/sounds/eat.mp3');
+      this.playAudio('assets//sounds/eat.mp3');
     }
     this.totalMoves += 1;
-    this.playAudio('../../assets/sounds/step.mp3');
+    this.playAudio('assets/sounds/step.mp3');
     if (this.countOfGreens === 0) {
       this.endGame();
-      this.playAudio('../../assets/sounds/end.mp3');
+      this.playAudio('assets/sounds/end.mp3');
     }
   }
 
